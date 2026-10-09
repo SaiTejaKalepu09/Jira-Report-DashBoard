@@ -69,7 +69,10 @@ if generate_btn:
     burn_down_fig = create_burndown_chart(dev_df)
 
     chart_png = None
-    chart_png = burn_down_fig.to_image(format="png")
+    try:
+        chart_png = burn_down_fig.to_image(format="png")
+    except Exception as e:
+        pass
 
     requirements_df, other_df = split_status(defects_df)
 

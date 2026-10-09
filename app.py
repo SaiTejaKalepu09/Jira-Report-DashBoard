@@ -38,7 +38,7 @@ with col2:
         type=["csv"]
     )
 
-button_col1, button_col2, button_col3, button_col4 = st.columns(4)
+button_col1, button_col2, button_col3= st.columns(3)
 
 with button_col1:
     generate_btn = st.button(
@@ -48,12 +48,9 @@ with button_col1:
     )
 
 with button_col2:
-    chart_placeholder = st.empty()
-
-with button_col3:
     requirements_placeholder = st.empty()
 
-with button_col4:
+with button_col3:
     other_placeholder = st.empty()
 
 # =====================================================
@@ -71,6 +68,7 @@ if generate_btn:
 
     burn_down_fig = create_burndown_chart(dev_df)
 
+    chart_png = None
     try:
         chart_png = burn_down_fig.to_image(format="png")
     except Exception as e:
@@ -151,17 +149,6 @@ if st.session_state.report_ready:
     # =====================================================
     # Download Buttons
     # =====================================================
-
-    if st.session_state.chart_png is not None:
-
-        chart_placeholder.download_button(
-            label="📥 Burn Down Chart",
-            data=st.session_state.chart_png,
-            file_name="burn_down_chart.png",
-            mime="image/png",
-            use_container_width=True,
-            on_click="ignore"
-        )
 
     if st.session_state.requirements_excel is not None:
 

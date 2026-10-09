@@ -72,7 +72,7 @@ if generate_btn:
     try:
         chart_png = burn_down_fig.to_image(format="png")
     except Exception as e:
-        st.error(f"Chart Error: {e}")
+        st.error(f"Chart Error")
 
     requirements_df, other_df = split_status(defects_df)
 

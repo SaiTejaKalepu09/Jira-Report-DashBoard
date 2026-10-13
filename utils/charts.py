@@ -2,12 +2,16 @@ import pandas as pd
 import plotly.graph_objects as go
 import plotly.io as pio
 
+import pandas as pd
+import plotly.graph_objects as go
+import plotly.io as pio
+
 try:
     pio.kaleido.scope.chromium_args = (
         "--headless",
         "--no-sandbox",
-        "--single-process",
-        "--disable-gpu",
+        "--disable-dev-shm-usage",
+        "--disable-gpu"
     )
 except Exception:
     pass

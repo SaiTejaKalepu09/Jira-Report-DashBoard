@@ -37,7 +37,7 @@ with col2:
 # Top Buttons
 # =====================================================
 
-button_col1, button_col2 = st.columns(2)
+button_col1, button_col2, spacer = st.columns([2, 2, 6])
 
 with button_col1:
 
@@ -76,8 +76,11 @@ if generate_btn:
     st.success(
         "Files uploaded successfully!"
     )
-
+    st.write("")
+    st.write("")   
     st.markdown("---")
+    st.write("")
+    st.write("")
 
     # =====================================================
     # Burn Down Chart

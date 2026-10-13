@@ -5,6 +5,7 @@ from utils.processor import split_status
 from utils.charts import create_burndown_chart
 from utils.excel_export import create_styled_excel
 
+
 st.set_page_config(
     page_title="Jira Dashboard",
     layout="wide"
@@ -38,7 +39,7 @@ with col2:
         type=["csv"]
     )
 
-button_col1, button_col2, button_col3= st.columns(3)
+button_col1, button_col2, button_col3 = st.columns(3)
 
 with button_col1:
     generate_btn = st.button(
@@ -63,23 +64,51 @@ if generate_btn:
         st.error("Please upload both CSV files.")
         st.stop()
 
+    # =====================================================
+    # Read CSV Files
+    # =====================================================
+
     dev_df = pd.read_csv(dev_csv)
     defects_df = pd.read_csv(defects_csv)
 
-    burn_down_fig = create_burndown_chart(dev_df)
+    # =====================================================
+    # Burn Down Chart
+    # =====================================================
+
+    burn_down_fig = create_burndown_chart(
+        dev_df
+    )
 
     chart_png = None
-    try:
-        chart_png = burn_down_fig.to_image(format="png")
-    except Exception as e:
-        pass
 
-    requirements_df, other_df = split_status(defects_df)
+    try:
+
+        chart_png = burn_down_fig.to_image(
+            format="png"
+        )
+    except Exception as e:
+
+        st.error(
+            f"PNG Generation Error: {e}"
+        )
+
+    # =====================================================
+    # Process Defects CSV
+    # =====================================================
+
+    requirements_df, other_df = split_status(
+        defects_df
+    )
+
+    # =====================================================
+    # Requirements
+    # =====================================================
 
     if not requirements_df.empty:
 
         display_columns = [
-            col for col in [
+            col
+            for col in [
                 "Issue key",
                 "Summary",
                 "Status"
@@ -88,7 +117,9 @@ if generate_btn:
         ]
 
         requirements_display_df = (
-            requirements_df[display_columns]
+            requirements_df[
+                display_columns
+            ]
         )
 
         requirements_excel = create_styled_excel(
@@ -101,10 +132,15 @@ if generate_btn:
         requirements_display_df = pd.DataFrame()
         requirements_excel = None
 
+    # =====================================================
+    # Other Statuses
+    # =====================================================
+
     other_df = other_df.drop(
         columns=["Issue id"],
         errors="ignore"
     )
+
     desired_order = [
         "Issue key",
         "Summary",
@@ -118,14 +154,18 @@ if generate_btn:
         if col in other_df.columns
     ]
 
-    other_df = other_df[existing_columns]
+    other_df = other_df[
+        existing_columns
+    ]
 
     other_excel = create_styled_excel(
         other_df,
         "Other_Statuses"
     )
 
-    # Save everything
+    # =====================================================
+    # Save Everything to Session
+    # =====================================================
 
     st.session_state.dev_df = dev_df
     st.session_state.defects_df = defects_df
@@ -133,11 +173,19 @@ if generate_btn:
     st.session_state.burn_down_fig = burn_down_fig
     st.session_state.chart_png = chart_png
 
-    st.session_state.requirements_display_df = requirements_display_df
+    st.session_state.requirements_display_df = (
+        requirements_display_df
+    )
+
     st.session_state.other_df = other_df
 
-    st.session_state.requirements_excel = requirements_excel
-    st.session_state.other_excel = other_excel
+    st.session_state.requirements_excel = (
+        requirements_excel
+    )
+
+    st.session_state.other_excel = (
+        other_excel
+    )
 
     st.session_state.report_ready = True
 
@@ -148,17 +196,26 @@ if generate_btn:
 if st.session_state.report_ready:
 
     dev_df = st.session_state.dev_df
-    defects_df = st.session_state.defects_df
 
-    burn_down_fig = st.session_state.burn_down_fig
+    defects_df = (
+        st.session_state.defects_df
+    )
+
+    burn_down_fig = (
+        st.session_state.burn_down_fig
+    )
 
     requirements_display_df = (
         st.session_state.requirements_display_df
     )
 
-    other_df = st.session_state.other_df
+    other_df = (
+        st.session_state.other_df
+    )
 
-    st.success("Files uploaded successfully!")
+    st.success(
+        "Files uploaded successfully!"
+    )
 
     # =====================================================
     # Download Buttons
@@ -183,10 +240,12 @@ if st.session_state.report_ready:
         use_container_width=True,
         on_click="ignore"
     )
+
     for _ in range(4):
         st.write("")
+
     st.markdown("---")
-    # Push chart below first fold
+
     for _ in range(4):
         st.write("")
 
@@ -194,7 +253,9 @@ if st.session_state.report_ready:
     # Burn Down Chart
     # =====================================================
 
-    st.subheader("📈 Burn Down Chart")
+    st.subheader(
+        "📈 Burn Down Chart"
+    )
 
     st.plotly_chart(
         burn_down_fig,
@@ -210,7 +271,9 @@ if st.session_state.report_ready:
     # Requirements
     # =====================================================
 
-    st.subheader("📋 Requirements")
+    st.subheader(
+        "📋 Requirements"
+    )
 
     if not requirements_display_df.empty:
 
@@ -227,7 +290,9 @@ if st.session_state.report_ready:
 
     else:
 
-        st.info("No Requirement records found.")
+        st.info(
+            "No Requirement records found."
+        )
 
     st.markdown("---")
 
@@ -235,7 +300,9 @@ if st.session_state.report_ready:
     # Other Statuses
     # =====================================================
 
-    st.subheader("🛠 Development / Other Statuses")
+    st.subheader(
+        "🛠 Development / Other Statuses"
+    )
 
     st.metric(
         "Total Non-Requirement Stories",
@@ -254,15 +321,17 @@ if st.session_state.report_ready:
     # Raw Data
     # =====================================================
 
-    with st.expander("Current Dev Stories Data"):
-
+    with st.expander(
+        "Current Dev Stories Data"
+    ):
         st.dataframe(
             dev_df,
             use_container_width=True
         )
 
-    with st.expander("Open US Defects Data"):
-
+    with st.expander(
+        "Open US Defects Data"
+    ):
         st.dataframe(
             defects_df,
             use_container_width=True

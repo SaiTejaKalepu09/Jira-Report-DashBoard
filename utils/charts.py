@@ -1,6 +1,16 @@
 import pandas as pd
 import plotly.graph_objects as go
+import plotly.io as pio
 
+try:
+    pio.kaleido.scope.chromium_args = (
+        "--headless",
+        "--no-sandbox",
+        "--single-process",
+        "--disable-gpu",
+    )
+except Exception:
+    pass
 
 def create_burndown_chart(df):
 

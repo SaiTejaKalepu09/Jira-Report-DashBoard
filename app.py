@@ -105,6 +105,20 @@ if generate_btn:
         columns=["Issue id"],
         errors="ignore"
     )
+    desired_order = [
+        "Issue key",
+        "Summary",
+        "Status",
+        "Due date"
+    ]
+
+    existing_columns = [
+        col
+        for col in desired_order
+        if col in other_df.columns
+    ]
+
+    other_df = other_df[existing_columns]
 
     other_excel = create_styled_excel(
         other_df,

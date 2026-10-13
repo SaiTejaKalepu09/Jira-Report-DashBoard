@@ -23,26 +23,26 @@ def create_styled_excel(df, sheet_name):
 
     header_fill = PatternFill(
         fill_type="solid",
-        start_color="2F5F8A",
-        end_color="2F5F8A"
+        start_color="DAF2D0",
+        end_color="DAF2D0"
     )
 
     first_column_fill = PatternFill(
         fill_type="solid",
-        start_color="2F5F8A",
-        end_color="2F5F8A"
+        start_color="DAF2D0",
+        end_color="DAF2D0"
     )
 
     white_fill = PatternFill(
         fill_type="solid",
-        start_color="4682B4",
-        end_color="4682B4"
+        start_color="DAF2D0",
+        end_color="DAF2D0"
     )
 
     gray_fill = PatternFill(
         fill_type="solid",
-        start_color="8FB3D6",
-        end_color="8FB3D6"
+        start_color="DAF2D0",
+        end_color="DAF2D0"
     )
 
     # ========================

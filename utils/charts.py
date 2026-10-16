@@ -89,16 +89,6 @@ def create_burndown_chart(df):
 
     fig.update_layout(
 
-        title=dict(
-            text="Burn Down Chart",
-            x=0.5,
-            xanchor="center",
-            font=dict(
-                size=24,
-                color="black"
-            )
-        ),
-
         paper_bgcolor="white",
         plot_bgcolor="white",
 

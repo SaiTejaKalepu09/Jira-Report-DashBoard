@@ -3,8 +3,8 @@ import pandas as pd
 
 from utils.processor import split_status
 from utils.charts import create_burndown_chart
-from utils.excel_export import create_styled_excel
-from utils.report_export import create_full_report
+from utils.word_report import create_word_report
+from datetime import datetime
 
 
 st.set_page_config(
@@ -222,18 +222,22 @@ if generate_btn:
     # Full Report Generation
     # =====================================================
 
-    full_report = create_full_report(
+    word_report = create_word_report(
         chart_png,
         requirements_display_df,
         other_df
     )
 
+    file_name=datetime.now().strftime(
+        "%d-%m_Report.xlsx"
+    )
     full_report_placeholder.download_button(
-        label="📊 Download Full Report",
-        data=full_report,
-        file_name="jira_daily_report.xlsx",
-        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        use_container_width=True
+        label="📄 Download Word Report",
+        data=word_report,
+        file_name=datetime.now().strftime(
+            "%d-%m_Report.docx"
+        ),
+        mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     )
 
     st.markdown("---")

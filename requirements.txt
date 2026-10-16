@@ -3,3 +3,4 @@ pandas
 plotly>=6.1.1
 kaleido
 openpyxl
+python-docx
